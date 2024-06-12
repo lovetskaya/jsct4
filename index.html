@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Слайдер</title>
+    <style>
+        #slider {
+            width: 300px;
+            height: 20px;
+            background-color: #f0f0f0;
+            position: relative;
+        }
+
+        #slider .handle {
+            width: 20px;
+            height: 20px;
+            background-color: #007bff;
+            position: absolute;
+            top: 0;
+            cursor: pointer;
+        }
+
+        #value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+
+<div id="slider">
+    <div class="handle"></div>
+    <div id="value">0</div>
+</div>
+
+<script>
+    const slider = document.getElementById('slider');
+    const handle = slider.querySelector('.handle');
+    const value = slider.querySelector('#value');
+
+    let isDragging = false;
+
+    handle.addEventListener('mousedown', () => {
+        isDragging = true;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            const sliderRect = slider.getBoundingClientRect();
+            let posX = e.clientX - sliderRect.left;
+            if (posX < 0) {
+                posX = 0;
+            } else if (posX > sliderRect.width) {
+                posX = sliderRect.width;
+            }
+
+            const valuePercent = (posX / sliderRect.width) * 100;
+            handle.style.left = ${valuePercent}%;
+            value.innerText = Math.round(valuePercent);
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+</script>
+
+</body>
+</html>
